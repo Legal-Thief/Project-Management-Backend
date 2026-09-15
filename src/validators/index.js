@@ -4,22 +4,74 @@ const userRegisterValidator = () => {
   return [
     body("email")
       .trim()
-      .isEmpty()
+      .notEmpty()
       .withMessage("Email is required")
       .isEmail()
       .withMessage("Email is invalid"),
+
     body("username")
       .trim()
-      .isEmpty()
-      .withMessage("Usernaem is required")
+      .notEmpty()
+      .withMessage("Username is required")
       .isLowercase()
-      .withMessage("username must be in lower case")
+      .withMessage("Username must be in lower case")
       .isLength({ min: 3 })
-      .withMessage("IUsername must be at least 3 character long"),
-    body("password").trim().notEmpty().withMessage("password is required"),
-    body("fullName").optional().trim(),
+      .withMessage("Username must be at least 3 characters long"),
+
+    body("password")
+      .trim()
+      .notEmpty()
+      .withMessage("Password is required"),
+
+    body("fullName")
+      .optional()
+      .trim(),
   ];
 };
 
+const userLoginValidator = () => {
+  return [
+    body("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is invalid"),
 
-export{userRegisterValidator}
+    body("password")
+      .notEmpty()
+      .withMessage("Password is required"),
+  ];
+};
+
+const  userChangeCurrentPassowordValidators= ()=>{
+  return [
+    body("oldPass").notEmpty().withMessage("Old password is required"),
+    body("newPassword").notEmpty().withMessage("new password is required"),
+    
+  ]
+}
+
+const userForgotPasswordValidators=()=>{
+  return[
+    body("email").notEmpty().withMessage("Email is required")
+    .isEmail()
+    .withMessage("Email is invalid")
+  ]
+}
+
+
+const userResetForgotPasswordValidator = ()=>{
+  return[
+    body("newPassword")
+    .notEmpty()
+    .withMessage("new password is required")
+  ]
+}
+
+export {
+  userRegisterValidator,
+  userLoginValidator,
+  userChangeCurrentPassowordValidators,
+  userForgotPasswordValidators,
+  userResetForgotPasswordValidator
+};
